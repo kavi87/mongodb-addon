@@ -21,7 +21,7 @@
 
     <groupId>org.seedstack.addons</groupId>
     <artifactId>mongodb</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0-M1-SNAPSHOT</version>
 
     <properties>
         <seed.version>2.1.0-M1-SNAPSHOT</seed.version>
