@@ -1,8 +1,6 @@
 <!--
 
-    Copyright (c) 2013-2015 by The SeedStack authors. All rights reserved.
-
-    This file is part of SeedStack, An enterprise-oriented full development stack.
+    Copyright (c) 2013-2015, The SeedStack authors <http://seedstack.org>
 
     This Source Code Form is subject to the terms of the Mozilla Public
     License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -22,14 +20,19 @@
     <groupId>org.seedstack.addons</groupId>
     <artifactId>mongodb</artifactId>
     <version>1.0.0-M1-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
     <properties>
         <seed.version>2.1.0-M1-SNAPSHOT</seed.version>
         <mongodb.version>3.0.3</mongodb.version>
-
+        <morphia.version>1.0.1</morphia.version>
+        <business.version>2.1.0-M1-SNAPSHOT</business.version>
         <compatibility.skip>true</compatibility.skip>
     </properties>
-
+    <modules>
+        <module>core</module>
+        <module>morphia</module>
+    </modules>
     <build>
         <pluginManagement>
             <plugins>
@@ -52,8 +55,10 @@
                         <licenseMerges>
                             <licenseMerge>Apache 2|Apache License, Version 2.0</licenseMerge>
                             <licenseMerge>Apache 2|The Apache Software License, Version 2.0</licenseMerge>
+                            <licenseMerge>Apache 2|ASF 2.0</licenseMerge>
                             <licenseMerge>Apache 2|Apache License 2.0</licenseMerge>
                             <licenseMerge>BSD|The New BSD License</licenseMerge>
+                            <licenseMerge>BSD|https://svn.codehaus.org/proxytoys/trunk/LICENSE.txt</licenseMerge>                            
                             <licenseMerge>LGPL 3.0|GNU Lesser Public License</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|MPL 1.1</licenseMerge>
                             <licenseMerge>IGNORED_LICENSE|LGPL 2.1</licenseMerge>
@@ -70,31 +75,6 @@
             <artifactId>seed-core</artifactId>
             <version>${seed.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>${mongodb.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongodb-driver-async</artifactId>
-            <version>${mongodb.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.seedstack.seed</groupId>
-            <artifactId>seed-testing</artifactId>
-            <version>${seed.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>${logback.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <scm>
@@ -104,23 +84,33 @@
         <tag>HEAD</tag>
     </scm>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>bintray-jfrog-jfrog-jars</id>
+            <name>bintray-plugins</name>
+            <url>http://dl.bintray.com/jfrog/jfrog-jars</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <profiles>
         <profile>
-            <id>staging</id>
+            <id>snapshots</id>
             <repositories>
                 <repository>
-                    <id>sonatype-nexus-staging</id>
-                    <name>Sonatype Nexus Staging</name>
-                    <url>https://oss.sonatype.org/content/groups/staging</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                    <id>ojo-libs-snapshot</id>
+                    <name>ojo-snapshots</name>
+                    <url>https://oss.jfrog.org/artifactory/libs-snapshot</url>
                 </repository>
             </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>sonatype-nexus-staging</id>
-                    <name>Sonatype Nexus Staging</name>
-                    <url>https://oss.sonatype.org/content/groups/staging</url>
-                </pluginRepository>
-            </pluginRepositories>
         </profile>
     </profiles>
 </project>
