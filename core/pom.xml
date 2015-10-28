@@ -12,7 +12,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.seedstack.addons</groupId>
+        <groupId>org.seedstack.addons.mongodb</groupId>
         <artifactId>mongodb</artifactId>
         <version>1.0.0-M1-SNAPSHOT</version>
     </parent>
