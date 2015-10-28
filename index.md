@@ -384,7 +384,7 @@ public class Address implements ValueObject{
 }
 ```
 A Morphia `Datastore` can be injected simply by specifying the associated `morphia.clientName` and `morphia.dbName` with the appropriate binding annotation `@MorphiaDatastore` as followed:
-```
+```java
 public class MorphiaIT extends AbstractSeedIT{
 	@Inject
 	@MorphiaDatastore(clientName = "client1",dbName="db1")
@@ -407,7 +407,7 @@ The Morphia addon is business compliant. All business concepts can also be used 
 Generic repositories can be used by injecting the `Repository` interface with both the `@Inject` and `@Morphia` annotations as followed:
 
 
-```
+```java
 public class MongodbRepositoryIT extends AbstractSeedIT {
 
 	@Inject
@@ -430,13 +430,13 @@ public class MongodbRepositoryIT extends AbstractSeedIT {
 
 Custom repositories can be added simply by extending the class `BaseMongodbRepository` as followed :
 
-```
+```java
 public interface UserRepository extends Repository<Activation,String> {}
 public class UserMongodbRepository extends BaseMongodbRepository<User, Long> {}
 ```
 
 The repository can be injected as followed:
-```
+```java
 	@Inject
 	private UserRepository userRepository;
 ```
