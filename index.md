@@ -295,6 +295,153 @@ You can inject a client or a database without any `@Named` qualifier as long as 
 of the injected type configured. 
 {{% /callout %}}
     
+# Morphia
+[Morphia](https://github.com/mongodb/morphia) is an Object document mapper Api. it Provides Annotation-based Java objects mapping, and fluent query/update API's.
 
+SeedStack Morphia add-on enables your application to connect and interact with MongoDB instances only by injecting and using a Morphia `Datastore`. To add it to your project, 
+use the following Maven dependency:
+ 
+    <dependency>
+      <groupId>org.seedstack.addons</groupId>
+      <artifactId>mongodb-morphia</artifactId>
+    </dependency>
+
+## Configuration
+
+**Requirements:**
+Morphia Datastores need synchronous mongodb databases, please refer to mongodb [synchronous client](#asynchronous-client-options) and [database](#Databases) configuration before starting with morphia.
+
+**Link Morphia objects to mongodb databases:**
+Seed has the ability to create a new Morphia `Datastore` linked to single Morphia mapped objects or java packages. 
+Two `morphia` properties `clientName` and `dbName` are available and can be set using Seed object props configuration as followed:
+
+Requiried Mongodb configuration :
+
+```ini
+[org.seedstack.seed.persistence.mongodb]
+clients = client1
+
+[org.seedstack.seed.persistence.mongodb.client.client1]
+hosts = localhost
+option.connectionsPerHost = 50
+databases = db1
+```
+
+Datastore linked to a single Morphia mapped object :
+
+```ini
+[org.seedstack.seed.mongodb.domain.user.*]
+morphia.clientName = client1
+morphia.dbName = db1
+```
+
+Datastore linked to Morphia mapped objects in a package
+```ini
+[org.seedstack.seed.mongodb.domain.user.User]
+morphia.clientName = client1
+morphia.dbName = db1
+```    
+
+## Usage
+
+Configuration for affecting a package to a `Datastore` linked to the database `db1`:
+```ini
+[org.seedstack.seed.persistence.mongodb]
+clients = client1
+
+[org.seedstack.seed.persistence.mongodb.client.client1]
+hosts = localhost
+option.connectionsPerHost = 50
+databases = db1
+
+[org.seedstack.seed.mongodb.domain.user.*]
+morphia.clientName = client1
+morphia.dbName = db1
+```    
+{{% callout info %}}
+Morphia only support synchronous client, as so the Mongodb database must be synchronous.
+{{% /callout %}}
+
+Mapping Object under the package defined above:
+```java
+@Entity
+public class User implements AggregateRoot<Long>{
+	@Id
+	private long id;
+	private String name;
+	private String lastname;
+    @Embedded    
+    private Address address;
+	(...)
+}
+@Embedded
+public class Address implements ValueObject{
+	private String country;
+	private String zipcode;
+	private String city;
+	private String street;
+	private Integer number;
+}
+```
+A Morphia `Datastore` can be injected simply by specifying the associated `morphia.clientName` and `morphia.dbName` with the appropriate binding annotation `@MorphiaDatastore` as followed:
+```java
+public class MorphiaIT extends AbstractSeedIT{
+	@Inject
+	@MorphiaDatastore(clientName = "client1",dbName="db1")
+	private Datastore datastore; 
+	
+	@Test
+	public void datastore_test(){
+		User user = new User(...);
+		Key<User> keyUser = datastore.save(user);
+		Assertions.assertThat(keyUser).isNotNull();
+	}
+}
+```
+## Business usage
+
+The Morphia addon is business compliant. All business concepts can also be used for persisting your data with Mongodb through Morphia. please refer to the [business documention](#) to see all available concepts.
+
+### Repositories
+
+Generic repositories can be used by injecting the `Repository` interface with both the `@Inject` and `@Morphia` annotations as followed:
+
+
+```java
+public class MongodbRepositoryIT extends AbstractSeedIT {
+
+	@Inject
+	@Morphia
+	private Repository<User, Long> userRepository;
+	
+	@Inject
+	Factory<User> myUserFactory; 
+	
+	@Test
+	public void mongodb_repository_test() {
+		userRepository.delete(myUserFactory.create(...));
+		User loadedUser = userRepository.load(user1.getEntityId());
+		Assertions.assertThat(user).isEqualTo(null);
+	}
+
+}
+```
+
+
+Custom repositories can be added simply by extending the class `BaseMongodbRepository` as followed :
+
+```java
+public interface UserRepository extends Repository<Activation,String> {}
+public class UserMongodbRepository extends BaseMongodbRepository<User, Long> {}
+```
+
+The repository can be injected as followed:
+```java
+	@Inject
+	private UserRepository userRepository;
+```
+{{% callout info %}}
+To use a `Datastore` inside the repository simply call the method `this.getDatastore()`
+{{% /callout %}}
     
     
