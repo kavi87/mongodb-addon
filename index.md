@@ -10,13 +10,9 @@ menu:
         weight: 10
 ---
 
-SeedStack MongoDB add-on enables your application to connect with MongoDB instances. To add it to your project, 
-use the following Maven dependency:
- 
-    <dependency>
-      <groupId>org.seedstack.addons</groupId>
-      <artifactId>mongodb</artifactId>
-    </dependency>
+SeedStack MongoDB add-on enables your application to connect with MongoDB instances. 
+
+{{< dependency g="org.seedstack.addons.mongodb" a="mongodb" >}}
     
 You also need to add the MongoDB Java client:
      
@@ -40,17 +36,17 @@ clients in the same application):
 MongoDB clients are used to access databases and are declared with the following configuration property:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb]
+[org.seedstack.mongodb]
 clients = client1, client2, ...
 ```
 
 Each client must then be configured separately with the following configuration:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 # configuration of client1 
 
-[org.seedstack.seed.persistence.mongodb.client.client2]
+[org.seedstack.mongodb.client.client2]
 # configuration of client2
  
 ...
@@ -63,7 +59,7 @@ by default, to switch to the [asynchronous driver](http://mongodb.github.io/mong
 the following configuration:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 async = true
 ```    
 {{% /callout %}}          
@@ -72,7 +68,7 @@ async = true
 A client can be configured with an URI:
   
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 uri = mongodb://[username:password@]host1[:port1][,host2[:port2],...[,hostN[:portN]]][/[database][?options]]      
 ```
 
@@ -84,7 +80,7 @@ the URI and its options can be found [here](http://docs.mongodb.org/manual/refer
 As an alternative a client can be configured by directly specifying the MongoDB host(s):
  
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 hosts = host1:27017, host2     
 ```
 
@@ -99,7 +95,7 @@ When no port is specified, whether in the URI or in the hosts property, the defa
 When configuring the connection with explicit hosts, connection credentials can be specified as the following:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...    
 credentials = db1:user1:password1
 ```
@@ -109,7 +105,7 @@ database. The authentication mechanism will be automatically selected. To force 
 following syntax:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...    
 credentials = mechanism/db1:user1:password1
 ```
@@ -118,7 +114,7 @@ The available authentication mechanisms are `PLAIN`, `MONGODB_CR`, `SCRAM_SHA_1`
 specify multiple credentials like the following:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...    
 credentials = mechanism/db1:user1:password1, mechanism/db2:user2:password2, ...
 ```
@@ -134,7 +130,7 @@ You can choose to inject and use the `MongoClient` object(s) directly and access
 convenience, Seed also allows to inject the `MongoDatabase` object(s) with the following configuration:
   
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...
 databases = db1, db2, ...
 ```
@@ -144,11 +140,11 @@ Database names must be unique across the application so you can encounter a situ
 may need to access databases with the same name. In that case, you can use the alias feature. Consider the following clients:
  
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...    
 databases = db1, db2
 
-[org.seedstack.seed.persistence.mongodb.client.client2]
+[org.seedstack.mongodb.client.client2]
 ...    
 databases = db2, db3
 ```
@@ -157,7 +153,7 @@ You can note that a database named `db2` exists in MongoDB instances accessed by
 this ambiguity, one of the `db2` databases must be aliased in the application:
   
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client2]
+[org.seedstack.mongodb.client.client2]
 ...    
 databases = db2, db3
 alias.db2 = db2bis
@@ -171,7 +167,7 @@ application by the `db2bis` name. Note that you can use this feature even when t
 Additional options can be specified on synchronous clients with the `option` prefix:
  
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...
 option.optionName1 = value1
 option.optionName2 = value2
@@ -182,7 +178,7 @@ All the options from the [MongoClientOptions.Builder](http://api.mongodb.org/jav
 class are available. Each method of the builder translates to an option of the same name. Consider the following example:
        
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...
 option.connectionsPerHost = 75
 ```
@@ -199,7 +195,7 @@ will complement their URI counterpart and override them if present in both.
 Additional options can be specified on asynchronous clients with the `setting` prefix:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 ...
 setting.settingNamespace1.settingName1 = value1
 setting.settingNamespace1.settingName2 = value2
@@ -296,48 +292,50 @@ of the injected type configured.
 {{% /callout %}}
     
 # Morphia
-[Morphia](https://github.com/mongodb/morphia) is an Object document mapper Api. it Provides Annotation-based Java objects mapping, and fluent query/update API's.
+[Morphia](https://github.com/mongodb/morphia) is an Object document mapper Api. it Provides Annotation-based Java objects
+mapping, and fluent query/update API's.
 
-SeedStack Morphia add-on enables your application to connect and interact with MongoDB instances only by injecting and using a Morphia `Datastore`. To add it to your project, 
-use the following Maven dependency:
- 
-    <dependency>
-      <groupId>org.seedstack.addons</groupId>
-      <artifactId>mongodb-morphia</artifactId>
-    </dependency>
+SeedStack Morphia add-on enables your application to connect and interact with MongoDB instances only by injecting and
+using a Morphia `Datastore`.
+
+{{< dependency g="org.seedstack.addons.mongodb" a="mongodb-morphia" >}}
 
 ## Configuration
 
+{{% callout info %}}
 **Requirements:**
-Morphia Datastores need synchronous mongodb databases, please refer to mongodb [synchronous client](#asynchronous-client-options) and [database](#Databases) configuration before starting with morphia.
+Morphia Datastores need synchronous mongodb databases, please refer to mongodb [synchronous client](#asynchronous-client-options)
+and [database](#Databases) configuration before starting with morphia.
+{{% /callout %}}
 
-**Link Morphia objects to mongodb databases:**
-Seed has the ability to create a new Morphia `Datastore` linked to single Morphia mapped objects or java packages. 
-Two `morphia` properties `clientName` and `dbName` are available and can be set using Seed object props configuration as followed:
+Seed has the ability to create a new Morphia `Datastore` linked to single Morphia mapped objects or java packages.
+Two `morphia` properties `clientName` and `dbName` are available and can be set using Seed object props configuration
+as followed:
 
-Requiried Mongodb configuration :
+Required Mongodb configuration:
 
 ```ini
-[org.seedstack.seed.persistence.mongodb]
+[org.seedstack.mongodb]
 clients = client1
 
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 hosts = localhost
 option.connectionsPerHost = 50
 databases = db1
 ```
 
-Datastore linked to a single Morphia mapped object :
+Datastore linked to a single Morphia mapped object:
 
 ```ini
-[org.seedstack.seed.mongodb.domain.user.*]
+[org.mycompany.myapp.domain.user.*]
 morphia.clientName = client1
 morphia.dbName = db1
 ```
 
 Datastore linked to Morphia mapped objects in a package
+
 ```ini
-[org.seedstack.seed.mongodb.domain.user.User]
+[org.mycompany.myapp.domain.user.User]
 morphia.clientName = client1
 morphia.dbName = db1
 ```    
@@ -345,24 +343,27 @@ morphia.dbName = db1
 ## Usage
 
 Configuration for affecting a package to a `Datastore` linked to the database `db1`:
+
 ```ini
-[org.seedstack.seed.persistence.mongodb]
+[org.seedstack.mongodb]
 clients = client1
 
-[org.seedstack.seed.persistence.mongodb.client.client1]
+[org.seedstack.mongodb.client.client1]
 hosts = localhost
 option.connectionsPerHost = 50
 databases = db1
 
-[org.seedstack.seed.mongodb.domain.user.*]
+[org.mycompany.myapp.domain.user.*]
 morphia.clientName = client1
 morphia.dbName = db1
-```    
+```
+
 {{% callout info %}}
 Morphia only support synchronous client, as so the Mongodb database must be synchronous.
 {{% /callout %}}
 
 Mapping Object under the package defined above:
+
 ```java
 @Entity
 public class User implements AggregateRoot<Long>{
@@ -372,7 +373,8 @@ public class User implements AggregateRoot<Long>{
 	private String lastname;
     @Embedded    
     private Address address;
-	(...)
+    
+	// ...
 }
 @Embedded
 public class Address implements ValueObject{
@@ -383,7 +385,10 @@ public class Address implements ValueObject{
 	private Integer number;
 }
 ```
-A Morphia `Datastore` can be injected simply by specifying the associated `morphia.clientName` and `morphia.dbName` with the appropriate binding annotation `@MorphiaDatastore` as followed:
+
+A Morphia `Datastore` can be injected simply by specifying the associated `morphia.clientName` and `morphia.dbName` with
+the appropriate binding annotation `@MorphiaDatastore` as followed:
+
 ```java
 public class MorphiaIT extends AbstractSeedIT{
 	@Inject
@@ -398,13 +403,12 @@ public class MorphiaIT extends AbstractSeedIT{
 	}
 }
 ```
-## Business usage
 
-The Morphia addon is business compliant. All business concepts can also be used for persisting your data with Mongodb through Morphia. please refer to the [business documention](#) to see all available concepts.
+## Repositories
 
-### Repositories
-
-Generic repositories can be used by injecting the `Repository` interface with both the `@Inject` and `@Morphia` annotations as followed:
+The Morphia addon also provides repositories which can be use with the [Business Framework](http://seedstack.org/docs/business/).
+Default repositories can be used by injecting the {{< java "org.seedstack.business.domain.Repository" >}} interface with
+both the `@Inject` and {{< java "org.seedstack.mongodb.morphia.Morphia" "@" >}} annotations as followed:
 
 
 ```java
@@ -427,8 +431,7 @@ public class MongodbRepositoryIT extends AbstractSeedIT {
 }
 ```
 
-
-Custom repositories can be added simply by extending the class `BaseMongodbRepository` as followed :
+Custom repositories can be added simply by extending the class {{< java "org.seedstack.mongodb.morphia.BaseMongodbRepository" >}} as followed:
 
 ```java
 public interface UserRepository extends Repository<Activation,String> {}
@@ -436,12 +439,14 @@ public class UserMongodbRepository extends BaseMongodbRepository<User, Long> {}
 ```
 
 The repository can be injected as followed:
+
 ```java
-	@Inject
-	private UserRepository userRepository;
+@Inject
+private UserRepository userRepository;
 ```
+
 {{% callout info %}}
-To use a `Datastore` inside the repository simply call the method `this.getDatastore()`
+To use a {{< java "org.mongodb.morphia.Datastore" >}} inside the repository simply call the method `this.getDatastore()`.
 {{% /callout %}}
     
     
