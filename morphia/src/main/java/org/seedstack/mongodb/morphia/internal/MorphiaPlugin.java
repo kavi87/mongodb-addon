@@ -7,9 +7,8 @@
  */
 package org.seedstack.mongodb.morphia.internal;
 
-import io.nuun.kernel.api.Plugin;
+import com.google.common.collect.Lists;
 import io.nuun.kernel.api.plugin.InitState;
-import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.api.plugin.request.ClasspathScanRequest;
 import io.nuun.kernel.core.AbstractPlugin;
@@ -24,7 +23,6 @@ import org.seedstack.seed.SeedException;
 import org.seedstack.seed.core.internal.application.ApplicationPlugin;
 import org.seedstack.seed.core.utils.BaseClassSpecifications;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -46,21 +44,12 @@ public class MorphiaPlugin extends AbstractPlugin {
 
     @Override
     public String name() {
-        return "seed-persistence-morphia-plugin";
+        return "morphia";
     }
 
     @Override
     public InitState init(InitContext initContext) {
-        Application application = null;
-        for (Plugin plugin : initContext.pluginsRequired()) {
-            if (plugin instanceof ApplicationPlugin) {
-                application = ((ApplicationPlugin) plugin).getApplication();
-            }
-        }
-
-        if (application == null) {
-            throw new PluginException("Unable to find application plugin");
-        }
+        Application application = initContext.dependency(ApplicationPlugin.class).getApplication();
 
         if (MORPHIA_MAPPED_CLASSES_SPECS != null) {
             Collection<Class<?>> morphiaScannedClasses = initContext.scannedTypesBySpecification().get(MORPHIA_MAPPED_CLASSES_SPECS);
@@ -101,13 +90,13 @@ public class MorphiaPlugin extends AbstractPlugin {
             throw SeedException.createNew(MorphiaErrorCodes.UNKNOW_DATASTORE_DATABASE)
                     .put("aggregate", morphiaClass.getName()).put("clientName", clientName).put("dbName", dbName);
         }
-        checkMongoClient(application, morphiaClass, clientName, dbName);
+        checkMongoClient(application.getConfiguration(), morphiaClass, clientName, dbName);
         MorphiaDatastore morphiaDatastore = new MorphiaDatastoreImpl(clientName, dbName);
         return morphiaDatastore;
     }
 
-    private static void checkMongoClient(Application application, Class<?> mappedClass, String clientName, String dbName) {
-        Configuration configurationClientMongodb = application.getConfiguration().subset(MongoDbPlugin.CONFIGURATION_PREFIX + ".client." + clientName);
+    private static void checkMongoClient(Configuration configuration, Class<?> mappedClass, String clientName, String dbName) {
+        Configuration configurationClientMongodb = configuration.subset(MongoDbPlugin.CONFIGURATION_PREFIX + ".client." + clientName);
         if (configurationClientMongodb.isEmpty()) {
             throw SeedException.createNew(MongoDbErrorCodes.UNKNOWN_CLIENT_SPECIFIED)
                     .put("aggregate", mappedClass.getName()).put("clientName", clientName).put("dbName", dbName);
@@ -125,11 +114,8 @@ public class MorphiaPlugin extends AbstractPlugin {
     }
 
     @Override
-    public Collection<Class<? extends Plugin>> requiredPlugins() {
-        Collection<Class<? extends Plugin>> plugins = new ArrayList<Class<? extends Plugin>>();
-        plugins.add(ApplicationPlugin.class);
-        plugins.add(MongoDbPlugin.class);
-        return plugins;
+    public Collection<Class<?>> requiredPlugins() {
+        return Lists.<Class<?>>newArrayList(ApplicationPlugin.class, MongoDbPlugin.class);
     }
 
     @Override

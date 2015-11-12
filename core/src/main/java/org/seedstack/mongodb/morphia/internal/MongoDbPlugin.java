@@ -7,20 +7,17 @@
  */
 package org.seedstack.mongodb.morphia.internal;
 
+import com.google.common.collect.Lists;
 import com.google.inject.AbstractModule;
-import io.nuun.kernel.api.Plugin;
 import io.nuun.kernel.api.plugin.InitState;
-import io.nuun.kernel.api.plugin.PluginException;
 import io.nuun.kernel.api.plugin.context.InitContext;
 import io.nuun.kernel.core.AbstractPlugin;
 import org.apache.commons.configuration.Configuration;
-import org.seedstack.seed.Application;
 import org.seedstack.seed.SeedException;
-import org.seedstack.seed.core.internal.application.ApplicationPlugin;
+import org.seedstack.seed.core.spi.configuration.ConfigurationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -49,19 +46,8 @@ public class MongoDbPlugin extends AbstractPlugin {
     @Override
     @SuppressWarnings("unchecked")
     public InitState init(InitContext initContext) {
-        Application application = null;
-        Configuration mongoConfiguration = null;
-
-        for (Plugin plugin : initContext.pluginsRequired()) {
-            if (plugin instanceof ApplicationPlugin) {
-                application = ((ApplicationPlugin) plugin).getApplication();
-                mongoConfiguration = application.getConfiguration().subset(MongoDbPlugin.CONFIGURATION_PREFIX);
-            }
-        }
-
-        if (application == null) {
-            throw new PluginException("Unable to find application plugin");
-        }
+        Configuration mongoConfiguration = initContext.dependency(ConfigurationProvider.class)
+                .getConfiguration().subset(MongoDbPlugin.CONFIGURATION_PREFIX);
 
         String[] clientNames = mongoConfiguration.getStringArray("clients");
         Set<String> allDbNames = new HashSet<String>();
@@ -121,10 +107,8 @@ public class MongoDbPlugin extends AbstractPlugin {
     }
 
     @Override
-    public Collection<Class<? extends Plugin>> requiredPlugins() {
-        Collection<Class<? extends Plugin>> plugins = new ArrayList<Class<? extends Plugin>>();
-        plugins.add(ApplicationPlugin.class);
-        return plugins;
+    public Collection<Class<?>> requiredPlugins() {
+        return Lists.<Class<?>>newArrayList(ConfigurationProvider.class);
     }
 
     @Override
