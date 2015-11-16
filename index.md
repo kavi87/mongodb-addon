@@ -4,7 +4,8 @@ addon: "MongoDB"
 repo: "https://github.com/seedstack/mongodb-addon"
 author: "SeedStack"
 description: "Provides configuration and injection for synchronous and asynchronous MongoDB clients."
-min-version: "15.7+"
+min-version: "15.11+"
+backend: true
 menu:
     AddonMongoDB:
         weight: 10
