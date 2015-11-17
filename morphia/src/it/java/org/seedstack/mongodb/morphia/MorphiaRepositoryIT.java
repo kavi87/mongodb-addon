@@ -19,7 +19,7 @@ import org.seedstack.mongodb.morphia.fixtures.dummyobject.*;
 import org.seedstack.mongodb.morphia.fixtures.user.Address;
 import org.seedstack.mongodb.morphia.fixtures.user.User;
 
-public class MongodbRepositoryIT extends AbstractSeedIT {
+public class MorphiaRepositoryIT extends AbstractSeedIT {
 
 	@Inject
 	@Morphia

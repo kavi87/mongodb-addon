@@ -11,7 +11,7 @@ import javax.inject.Inject;
 
 import org.seedstack.business.domain.AggregateRoot;
 import org.seedstack.business.spi.GenericImplementation;
-import org.seedstack.mongodb.morphia.BaseMongodbRepository;
+import org.seedstack.mongodb.morphia.BaseMorphiaRepository;
 import org.seedstack.seed.core.utils.SeedCheckUtils;
 import org.seedstack.mongodb.morphia.Morphia;
 
@@ -30,11 +30,11 @@ import com.google.inject.assistedinject.Assisted;
  * @param <KEY>       the aggregate key
  * @author redouane.loulou@ext.mpsa.com
  * @see org.seedstack.business.domain.Repository
- * @see org.seedstack.business.mongodb.BaseMongodbRepository
+ * @see org.seedstack.mongodb.morphia.BaseMorphiaRepository
  */
 @Morphia
 @GenericImplementation
-public class DefaultMongodbRepository<AGGREGATE extends AggregateRoot<KEY>, KEY> extends BaseMongodbRepository<AGGREGATE, KEY> {
+public class DefaultMorphiaRepository<AGGREGATE extends AggregateRoot<KEY>, KEY> extends BaseMorphiaRepository<AGGREGATE, KEY> {
 
     /**
      * Constructs a DefaultMongodbRepository.
@@ -43,7 +43,7 @@ public class DefaultMongodbRepository<AGGREGATE extends AggregateRoot<KEY>, KEY>
      */
     @SuppressWarnings("unchecked")
     @Inject
-    public DefaultMongodbRepository(@Assisted Object[] genericClasses) {
+    public DefaultMorphiaRepository(@Assisted Object[] genericClasses) {
         Object[] clonedClasses = genericClasses.clone();
         SeedCheckUtils.checkIfNotNull(clonedClasses);
         SeedCheckUtils.checkIf(clonedClasses.length == 2);

@@ -7,15 +7,14 @@
  */
 package org.seedstack.mongodb.morphia;
 
-import org.mongodb.morphia.Datastore;
-import org.seedstack.business.domain.AggregateRoot;
-import org.seedstack.business.domain.BaseRepository;
-import org.seedstack.seed.Application;
-import org.seedstack.mongodb.morphia.internal.MorphiaPlugin;
-
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
+import org.mongodb.morphia.Datastore;
+import org.seedstack.business.domain.AggregateRoot;
+import org.seedstack.business.domain.BaseRepository;
+import org.seedstack.mongodb.morphia.internal.MorphiaPlugin;
+import org.seedstack.seed.Application;
 
 /**
  * This class serves as inheritance base for the Mongodb repositories.
@@ -26,16 +25,12 @@ import com.google.inject.Key;
  *            key type
  * @author redouane.loulou@ext.mpsa.com Date: 20/10/2015
  */
-public abstract class BaseMongodbRepository<A extends AggregateRoot<K>, K> extends BaseRepository<A, K> {
+public abstract class BaseMorphiaRepository<A extends AggregateRoot<K>, K> extends BaseRepository<A, K> {
 
 	private Datastore datastore;
 
-	public Datastore getDatastore() {
+	protected Datastore getDatastore() {
 		return datastore;
-	}
-
-	public void setDatastore(Datastore datastore) {
-		this.datastore = datastore;
 	}
 
 	@Inject
