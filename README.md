@@ -1,6 +1,6 @@
 # SeedStack MongoDB add-on
 
-[![Build status](https://travis-ci.org/seedstack/mongodb-addon.svg?branch=master)](https://travis-ci.org/seedstack/mongodb-addon) [![Coverage Status](https://coveralls.io/repos/seedstack/mongodb-addon/badge.svg?branch=master)](https://coveralls.io/r/seedstack/mongodb-addon?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack/seed-mongodb/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack/seed-mongodb)
+[![Build status](https://travis-ci.org/seedstack/mongodb-addon.svg?branch=master)](https://travis-ci.org/seedstack/mongodb-addon) [![Coverage Status](https://coveralls.io/repos/seedstack/mongodb-addon/badge.svg?branch=master)](https://coveralls.io/r/seedstack/mongodb-addon?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.mongodb/mongodb/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.mongodb/mongodb)
 
 Official MongoDB integration for SeedStack.
 
