@@ -29,6 +29,8 @@
         <business.version>2.1.0</business.version>
 
         <compatibility.version>1.0.0</compatibility.version>
+
+        <bintray.package>mongodb-addon</bintray.package>
     </properties>
     <modules>
         <module>core</module>
