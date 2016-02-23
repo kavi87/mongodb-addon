@@ -1,11 +1,20 @@
 ---
-title: "Overview"
-addon: "MongoDB"
+title: "Basics"
+name: "MongoDB"
 repo: "https://github.com/seedstack/mongodb-addon"
 author: "SeedStack"
 description: "Provides configuration and injection for synchronous and asynchronous MongoDB clients."
 min-version: "15.11+"
 backend: true
+weight: -1
+tags:
+    - "persistence"
+    - "nosql"
+    - "mongodb"
+    - "data"
+    - "database"
+zones:
+    - Addons
 menu:
     AddonMongoDB:
         weight: 10
