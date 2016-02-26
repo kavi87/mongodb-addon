@@ -11,70 +11,69 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 import org.seedstack.business.domain.AggregateRoot;
 
+import javax.validation.constraints.NotNull;
+
 @Entity
-public class User implements AggregateRoot<Long>{
-	
-	
-	
-	public User() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+public class User implements AggregateRoot<Long> {
 
-	public User(long id, String name, String lastname, Address address) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.lastname = lastname;
-		this.address = address;
-	}
 
-	@Id
-	private long id;
-	
-	private String name;
-	
-	private String lastname;
+    public User() {
+    }
 
-	private Address address;
+    public User(long id, String name, String lastName, Address address) {
+        this.id = id;
+        this.name = name;
+        this.lastname = lastName;
+        this.address = address;
+    }
 
-	
-	public long getId() {
-		return id;
-	}
+    @Id
+    private long id;
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    @NotNull
+    private String name;
 
-	public String getName() {
-		return name;
-	}
+    private String lastname;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private Address address;
 
-	public String getLastname() {
-		return lastname;
-	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public Address getAddress() {
-		return address;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public void setAddress(Address address) {
-		this.address = address;
-	}
+    public String getName() {
+        return name;
+    }
 
-	@Override
-	public Long getEntityId() {
-		return id;
-	}
-	
-	
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    @Override
+    public Long getEntityId() {
+        return id;
+    }
+
+
 }

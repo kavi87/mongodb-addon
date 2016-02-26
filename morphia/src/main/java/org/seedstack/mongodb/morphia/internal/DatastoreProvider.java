@@ -7,47 +7,45 @@
  */
 package org.seedstack.mongodb.morphia.internal;
 
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.Morphia;
-import org.seedstack.seed.Application;
-import org.seedstack.mongodb.morphia.MorphiaDatastore;
-
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import com.mongodb.MongoClient;
+import org.mongodb.morphia.Datastore;
+import org.mongodb.morphia.Morphia;
+import org.seedstack.mongodb.morphia.MorphiaDatastore;
+import org.seedstack.seed.Application;
+
 /**
- * 
  * @author redouane.loulou@ext.mpsa.com
- *
  */
 class DatastoreProvider implements Provider<Datastore> {
 
-	@Inject
-	private Injector injector;
+    @Inject
+    private Injector injector;
 
-	@Inject
-	private Application application;
+    @Inject
+    private Application application;
 
-	private Class<?> mappedclass;
+    private Class<?> mappedclass;
 
-	private MorphiaDatastore morphiaDatastore;
+    private MorphiaDatastore morphiaDatastore;
 
-	private final Morphia morphia;
+    private final Morphia morphia;
 
-	@Override
-	public Datastore get() {
-		MongoClient mongoClient = injector
-				.getInstance(Key.get(MongoClient.class, Names.named(morphiaDatastore.clientName())));
-		return morphia.createDatastore(mongoClient, morphiaDatastore.dbName());
-	}
+    @Override
+    public Datastore get() {
+        MongoClient mongoClient = injector
+                .getInstance(Key.get(MongoClient.class, Names.named(morphiaDatastore.clientName())));
+        return morphia.createDatastore(mongoClient, morphiaDatastore.dbName());
+    }
 
-	public DatastoreProvider(MorphiaDatastore morphiaDatastore, Morphia morphia) {
-		super();
-		this.morphiaDatastore = morphiaDatastore;
-		this.morphia = morphia;
-	}
+    public DatastoreProvider(MorphiaDatastore morphiaDatastore, Morphia morphia) {
+        super();
+        this.morphiaDatastore = morphiaDatastore;
+        this.morphia = morphia;
+    }
 
 }
