@@ -7,15 +7,14 @@
  */
 package org.seedstack.mongodb.morphia.internal;
 
-import javax.inject.Inject;
-
+import com.google.inject.assistedinject.Assisted;
 import org.seedstack.business.domain.AggregateRoot;
 import org.seedstack.business.spi.GenericImplementation;
 import org.seedstack.mongodb.morphia.BaseMorphiaRepository;
-import org.seedstack.seed.core.utils.SeedCheckUtils;
 import org.seedstack.mongodb.morphia.Morphia;
+import org.seedstack.seed.core.utils.SeedCheckUtils;
 
-import com.google.inject.assistedinject.Assisted;
+import javax.inject.Inject;
 
 /**
  * Default Morphia implementation for Repository. Used only when no implementation is provided for an aggregate.

@@ -9,11 +9,11 @@ package org.seedstack.mongodb.morphia.fixtures.dummyobject;
 
 import org.seedstack.business.domain.BaseAggregateRoot;
 
-public class Dummy3 extends BaseAggregateRoot<Long>  {
+public class Dummy3 extends BaseAggregateRoot<Long> {
 
-	@Override
-	public Long getEntityId() {
-		return null;
-	}
+    @Override
+    public Long getEntityId() {
+        return null;
+    }
 
 }

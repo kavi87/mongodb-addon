@@ -11,9 +11,9 @@ import org.seedstack.business.domain.BaseAggregateRoot;
 
 public class Dummy1 extends BaseAggregateRoot<Long> {
 
-	@Override
-	public Long getEntityId() {
-		return null;
-	}
+    @Override
+    public Long getEntityId() {
+        return null;
+    }
 
 }

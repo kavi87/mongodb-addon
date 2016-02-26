@@ -10,9 +10,7 @@ package org.seedstack.mongodb.morphia.internal;
 import org.seedstack.seed.ErrorCode;
 
 /**
- * 
  * @author redouane.loulou@ext.mpsa.com
- *
  */
 public enum MorphiaErrorCodes implements ErrorCode {
     UNKNOW_DATASTORE_CONFIGURATION,

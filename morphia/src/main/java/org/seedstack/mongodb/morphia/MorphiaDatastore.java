@@ -7,13 +7,13 @@
  */
 package org.seedstack.mongodb.morphia;
 
+import com.google.inject.BindingAnnotation;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import com.google.inject.BindingAnnotation;
 
 /**
  * This qualifier marks the use of the Mongodb persistence.
@@ -23,9 +23,10 @@ import com.google.inject.BindingAnnotation;
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD })
+@Target({ElementType.FIELD, ElementType.PARAMETER, ElementType.METHOD})
 @BindingAnnotation
 public @interface MorphiaDatastore {
-	String clientName();
-	String dbName();
+    String clientName();
+
+    String dbName();
 }

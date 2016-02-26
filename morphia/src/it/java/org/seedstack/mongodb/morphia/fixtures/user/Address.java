@@ -11,57 +11,66 @@ import org.mongodb.morphia.annotations.Embedded;
 import org.seedstack.business.domain.ValueObject;
 
 @Embedded
-public class Address implements ValueObject{
-	private String country;
-	private String zipcode;
-	private String city;
-	private String street;
-	private Integer number;
-	
-	
-	
-	public Address() {
-		super();
-	}
-	public Address(String country, String zipcode, String city, String street, Integer number) {
-		super();
-		this.country = country;
-		this.zipcode = zipcode;
-		this.city = city;
-		this.street = street;
-		this.number = number;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getZipcode() {
-		return zipcode;
-	}
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
-	public String getStreet() {
-		return street;
-	}
-	public void setStreet(String street) {
-		this.street = street;
-	}
-	public Integer getNumber() {
-		return number;
-	}
-	public void setNumber(Integer number) {
-		this.number = number;
-	}
-	
-	
-	
+public class Address implements ValueObject {
+    private String country;
+    private String zipCode;
+    private String city;
+    private String street;
+    private Integer number;
+
+
+    public Address() {
+        super();
+    }
+
+    public Address(String country, String zipCode, String city, String street, Integer number) {
+        super();
+        this.country = country;
+        this.zipCode = zipCode;
+        this.city = city;
+        this.street = street;
+        this.number = number;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
+    }
+
+
 }
