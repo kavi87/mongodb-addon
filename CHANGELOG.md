@@ -1,6 +1,7 @@
 # Version 1.1.0 (?)
 
 * [new] Add Bean Validation support to Morphia (at pre-persist)
+* [chg] Update for SeedStack 16.4
 
 # Version 1.0.1 (2016-02-09)
 
