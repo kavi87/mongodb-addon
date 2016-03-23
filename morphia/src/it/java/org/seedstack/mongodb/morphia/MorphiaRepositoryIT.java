@@ -13,8 +13,9 @@ import com.google.inject.Key;
 import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import com.google.inject.util.Types;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
+import org.mongodb.morphia.mapping.MappingException;
+import org.mongodb.morphia.query.UpdateException;
 import org.seedstack.business.domain.Repository;
 import org.seedstack.mongodb.morphia.fixtures.dummyobject.Dummy1;
 import org.seedstack.mongodb.morphia.fixtures.dummyobject.Dummy2;
@@ -23,16 +24,24 @@ import org.seedstack.mongodb.morphia.fixtures.dummyobject.Dummy4;
 import org.seedstack.mongodb.morphia.fixtures.dummyobject.Dummy5;
 import org.seedstack.mongodb.morphia.fixtures.dummyobject.Dummy6;
 import org.seedstack.mongodb.morphia.fixtures.user.Address;
+import org.seedstack.mongodb.morphia.fixtures.user.EntityStringId;
 import org.seedstack.mongodb.morphia.fixtures.user.User;
 import org.seedstack.mongodb.morphia.internal.MorphiaErrorCodes;
 import org.seedstack.seed.SeedException;
 import org.seedstack.seed.it.AbstractSeedIT;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 public class MorphiaRepositoryIT extends AbstractSeedIT {
 
     @Inject
     @Morphia
     private Repository<User, Long> userRepository;
+
+    @Inject
+    @Morphia
+    private Repository<EntityStringId, String> entityStringIdRepository;
 
     @Inject
     private Injector injector;
@@ -45,7 +54,7 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
                     Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, Dummy1.class, Long.class)),
                             Morphia.class));
         } catch (ProvisionException e) {
-            Assertions.assertThat(e.getCause().getMessage())
+            assertThat(e.getCause().getMessage())
                     .isEqualTo(SeedException.createNew(MorphiaErrorCodes.UNKNOW_DATASTORE_CLIENT).getMessage());
         }
     }
@@ -57,7 +66,7 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
                     Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, Dummy2.class, Long.class)),
                             Morphia.class));
         } catch (ProvisionException e) {
-            Assertions.assertThat(e.getCause().getMessage())
+            assertThat(e.getCause().getMessage())
                     .isEqualTo(SeedException.createNew(MorphiaErrorCodes.UNKNOW_DATASTORE_DATABASE).getMessage());
         }
     }
@@ -69,7 +78,7 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
                     Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, Dummy3.class, Long.class)),
                             Morphia.class));
         } catch (ProvisionException e) {
-            Assertions.assertThat(e.getCause().getMessage())
+            assertThat(e.getCause().getMessage())
                     .isEqualTo(SeedException.createNew(MorphiaErrorCodes.UNKNOW_DATASTORE_CLIENT).getMessage());
         }
     }
@@ -81,7 +90,7 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
                     Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, Dummy4.class, Long.class)),
                             Morphia.class));
         } catch (ProvisionException e) {
-            Assertions.assertThat(e.getCause().getMessage())
+            assertThat(e.getCause().getMessage())
                     .isEqualTo(SeedException.createNew(MorphiaErrorCodes.UNKNOW_DATABASE_NAME).getMessage());
         }
     }
@@ -93,7 +102,7 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
                     Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, Dummy5.class, Long.class)),
                             Morphia.class));
         } catch (ProvisionException e) {
-            Assertions.assertThat(e.getCause().getMessage())
+            assertThat(e.getCause().getMessage())
                     .isEqualTo(SeedException.createNew(MorphiaErrorCodes.UNKNOW_DATASTORE_CONFIGURATION).getMessage());
         }
     }
@@ -105,7 +114,7 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
                     Key.get(TypeLiteral.get(Types.newParameterizedType(Repository.class, Dummy6.class, Long.class)),
                             Morphia.class));
         } catch (ProvisionException e) {
-            Assertions.assertThat(e.getCause().getMessage())
+            assertThat(e.getCause().getMessage())
                     .isEqualTo(SeedException.createNew(MorphiaErrorCodes.ERROR_ASYNC_CLIENT).getMessage());
         }
     }
@@ -113,29 +122,63 @@ public class MorphiaRepositoryIT extends AbstractSeedIT {
 
     @Test
     public void mongodb_repository_test() {
-        Assertions.assertThat(userRepository).isNotNull();
+        assertThat(userRepository).isNotNull();
         User user1 = getUser(1L, "N°", "1");
         userRepository.persist(user1);
         User user2 = userRepository.load(user1.getEntityId());
-        Assertions.assertThat(user1.getId()).isEqualTo(user2.getId());
-        Assertions.assertThat(user1.getEntityId()).isEqualTo(user2.getEntityId());
+        assertThat(user1.getId()).isEqualTo(user2.getId());
+        assertThat(user1.getEntityId()).isEqualTo(user2.getEntityId());
         userRepository.delete(user1);
         User user3 = userRepository.load(user1.getEntityId());
-        Assertions.assertThat(user3).isEqualTo(null);
+        assertThat(user3).isEqualTo(null);
         User user5 = getUser(2L, "N°", "2");
         userRepository.delete(user5);
-        userRepository.save(user5);
+        userRepository.persist(user5);
         User user6 = userRepository.load(user5.getEntityId());
-        Assertions.assertThat(user6.getId()).isEqualTo(user5.getId());
+        assertThat(user6.getId()).isEqualTo(user5.getId());
         userRepository.delete(user5);
         user6 = userRepository.load(user5.getEntityId());
-        Assertions.assertThat(user6).isEqualTo(null);
+        assertThat(user6).isEqualTo(null);
         userRepository.persist(user5);
-        Assertions.assertThat(userRepository.load(2L)).isNotEqualTo(null);
+        assertThat(userRepository.load(2L)).isNotEqualTo(null);
+    }
+
+    @Test(expected = MappingException.class)
+    public void mongodb_repository_save_without_id() {
+        EntityStringId saved = entityStringIdRepository.save(new EntityStringId(null));
+        fail("should not have saved");
+    }
+
+    @Test(expected = UpdateException.class)
+    public void mongodb_repository_save_with_inexistent_id() {
+        userRepository.save(getUser(100L, "Robert", "SMITH"));
+        fail("should not have saved");
+    }
+
+    @Test
+    public void mongodb_repository_save() {
+        userRepository.persist(getUser(200L, "Robert", "SMITH"));
+        assertThat(userRepository.save(getUser(200L, "Jane", "SMITH")).getEntityId()).isEqualTo(200L);
+    }
+
+    @Test
+    public void mongodb_repository_persist_load() {
+        userRepository.persist(getUser(300L, "Robert", "SMITH"));
+        assertThat(userRepository.load(300L).getEntityId()).isEqualTo(300L);
+    }
+
+    @Test
+    public void mongodb_repository_clear() {
+        userRepository.persist(getUser(400L, "Robert", "SMITH"));
+        userRepository.persist(getUser(401L, "Jayne", "SMITH"));
+        assertThat(userRepository.load(400L).getEntityId()).isEqualTo(400L);
+        assertThat(userRepository.load(401L).getEntityId()).isEqualTo(401L);
+        userRepository.clear();
+        assertThat(userRepository.load(400L)).isNull();
+        assertThat(userRepository.load(401L)).isNull();
     }
 
     public User getUser(long id, String firstname, String lastName) {
         return new User(id, firstname, lastName, new Address("France", "75001", "Paris", "Champ Elysee avenue", 1));
     }
-
 }

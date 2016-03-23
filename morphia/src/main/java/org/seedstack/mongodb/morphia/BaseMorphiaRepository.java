@@ -17,16 +17,21 @@ import org.seedstack.mongodb.morphia.internal.MorphiaUtils;
 import org.seedstack.seed.Application;
 
 /**
- * This class serves as inheritance base for the Mongodb repositories.
+ * This class can serve as a base class for Morphia repositories. It provides methods for common CRUD operations as
+ * well as access to the data store through the {@link #getDatastore()} ()} protected method.
  *
- * @param <A> Mongodb Entity Type (DDD: Aggregate)
- * @param <K> key type
- * @author redouane.loulou@ext.mpsa.com Date: 20/10/2015
+ * @param <A> Aggregate root class
+ * @param <K> Key class
+ * @author redouane.loulou@ext.mpsa.com
  */
 public abstract class BaseMorphiaRepository<A extends AggregateRoot<K>, K> extends BaseRepository<A, K> {
-
     private Datastore datastore;
 
+    /**
+     * Provides access to the Morphia data store for implementing custom data access methods.
+     *
+     * @return the Morphia data store.
+     */
     protected Datastore getDatastore() {
         return datastore;
     }
@@ -42,6 +47,11 @@ public abstract class BaseMorphiaRepository<A extends AggregateRoot<K>, K> exten
     }
 
     @Override
+    protected void doClear() {
+        datastore.delete(datastore.createQuery(aggregateRootClass));
+    }
+
+    @Override
     protected void doDelete(K id) {
         datastore.delete(aggregateRootClass, id);
     }
@@ -49,18 +59,16 @@ public abstract class BaseMorphiaRepository<A extends AggregateRoot<K>, K> exten
     @Override
     protected void doDelete(A aggregate) {
         datastore.delete(aggregate);
-
     }
 
     @Override
     protected void doPersist(A aggregate) {
         datastore.save(aggregate);
-
     }
 
     @Override
     protected A doSave(A aggregate) {
-        return datastore.get(aggregateRootClass, datastore.save(aggregate).getId());
+        datastore.merge(aggregate);
+        return aggregate;
     }
-
 }
