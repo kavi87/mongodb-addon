@@ -6,12 +6,13 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
 
-id: component1
-version: 1.0.0
+id: mongodb-addon
+name: MongoDB add-on
 owner: adrien.lauer@mpsa.com
-publicationDate: 2016-03-08
-url: http://fake.url.org/component-1
-summary: This is the awesome component 1.
+url: https://github.com/seedstack/mongodb-addon
+issues: https://github.com/seedstack/mongodb-addon/issues
+summary: MongoDB official persistence integration for SeedStack.
+license: MPL 2.0
 icon: images/icon.png
 images:
   - images/screenshot-1.png
@@ -24,4 +25,12 @@ docs:
   - docs/intro.md
   - docs/integration.md
   - docs/usage.md
-
+releases:
+  -
+    version: 1.0.0
+    url: https://github.com/seedstack/mongodb-addon/releases/tag/v1.0.0
+    date: 2015-11-17
+  -
+    version: 1.0.1
+    url: https://github.com/seedstack/mongodb-addon/releases/tag/v1.0.1
+    date: 2016-02-09
