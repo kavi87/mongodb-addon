@@ -1,10 +1,27 @@
-# SeedStack MongoDB add-on
+<h1>HTML Ipsum Presents</h1>
 
-[![Build status](https://travis-ci.org/seedstack/mongodb-addon.svg?branch=master)](https://travis-ci.org/seedstack/mongodb-addon) [![Coverage Status](https://coveralls.io/repos/seedstack/mongodb-addon/badge.svg?branch=master)](https://coveralls.io/r/seedstack/mongodb-addon?branch=master) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.mongodb/mongodb/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/org.seedstack.addons.mongodb/mongodb)
+<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
 
-Official MongoDB integration for SeedStack.
+<h2>Header Level 2</h2>
 
-# Copyright and license
+<ol>
+    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+    <li>Aliquam tincidunt mauris eu risus.</li>
+</ol>
 
-This source code is copyrighted by [The SeedStack Authors](https://github.com/seedstack/seedstack/blob/master/AUTHORS) and
-released under the terms of the [Mozilla Public License 2.0](https://www.mozilla.org/MPL/2.0/). 
+<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+
+<h3>Header Level 3</h3>
+
+<ul>
+    <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+    <li>Aliquam tincidunt mauris eu risus.</li>
+</ul>
+
+<pre><code>
+    #header h1 a {
+    display: block;
+    width: 300px;
+    height: 80px;
+    }
+</code></pre>
